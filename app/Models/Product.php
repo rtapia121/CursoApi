@@ -14,4 +14,8 @@ class Product extends Model
     public function category(){
         $this->belongsTo(Category::class);
     }
+
+    public function createBy(){
+        return $this->belongsTo(User::class);
+    }
 }
