@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Utils\CanBeRate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasFactory;
-    
+    use HasFactory, CanBeRate;
+
     protected $guarded =[];
 
     public function category(){

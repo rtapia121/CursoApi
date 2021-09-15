@@ -8,7 +8,8 @@ trait CanRate {
 
     public function ratings($model= null){
 
-        $modelClass = $model ? $model : $this->getMorphClass();
+
+        $modelClass = $model ? (new $model)->getMorphClass() : $this->getMorphClass();
 
         $morphToMany = $this->morphToMany(
             $modelClass,
@@ -18,10 +19,12 @@ trait CanRate {
             'rateable_id'
         );
 
-        $morphToMany->as('rating')
+        $morphToMany
+            ->as('rating')
             ->withTimestamps()
-            ->withPivot('score','rateable_type')
-            ->wherePivot('qualifier_type',$this->getMorphClass());
+            ->withPivot('rateable_type', 'score')
+            ->wherePivot('rateable_type', $modelClass)
+            ->wherePivot('qualifier_type', $this->getMorphClass());
 
         return $morphToMany;
 
