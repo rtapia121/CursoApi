@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserTokenController;
+use App\Http\Controllers\NewsletterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::resource('products', ProductController::class)->middleware('auth:sanctum');
 Route::post('/token', UserTokenController::class)->name('token');
+Route::post('/newsletter',[NewsletterController::class,'send'])->name('newsletter');
