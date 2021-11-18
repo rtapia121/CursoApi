@@ -10,13 +10,24 @@ class Product extends Model
 {
     use HasFactory, CanBeRate;
 
-    protected $guarded =[];
+    protected $guarded = [];
 
-    public function category(){
+    public function category()
+    {
         $this->belongsTo(Category::class);
     }
 
-    public function createBy(){
-        return $this->belongsTo(User::class);
+    public function createBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    protected static function booted()
+    {
+        static::creating(function (Product $product) {
+            $faker = \Faker\Factory::create();
+            $product->image_url = $faker->imageUrl();
+            $product->createBy()->associate(auth()->user());
+        });
     }
 }
