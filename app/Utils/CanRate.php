@@ -2,6 +2,7 @@
 
 namespace App\Utils;
 
+use App\Events\ModelRated;
 use Illuminate\Database\Eloquent\Model;
 
 trait CanRate {
@@ -39,6 +40,9 @@ trait CanRate {
         $this->ratings($model)->attach($model->getKey(),[
             'score' => $score
         ]);
+
+        event(new ModelRated($this, $model, $score));
+
         return true;
     }
 
