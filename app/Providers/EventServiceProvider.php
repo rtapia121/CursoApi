@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Jobs\UpdateLastLogin;
 use App\Listeners\SendEmailModelnotification;
 use App\Notifications\ModelRatedNotification;
 use Illuminate\Auth\Events\Registered;
@@ -23,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ModelRatedNotification::class => [
             SendEmailModelnotification::class
         ],
+        Login::class => [
+            UpdateLastLogin::class,
+        ]
     ];
 
     /**

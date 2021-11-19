@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Utils\CanBeRate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
@@ -14,12 +15,13 @@ class Product extends Model
 
     public function category()
     {
-        $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
-    public function createBy()
+    public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_by');
+        // return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(User::class,'id');
     }
 
     protected static function booted()
@@ -27,7 +29,7 @@ class Product extends Model
         static::creating(function (Product $product) {
             $faker = \Faker\Factory::create();
             $product->image_url = $faker->imageUrl();
-            $product->createBy()->associate(auth()->user());
+            $product->createdBy()->associate(auth()->user());
         });
     }
 }
