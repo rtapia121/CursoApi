@@ -27,3 +27,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/exception', function(){
     throw new Exception('Excepcion perrona');
 });
+
+
+Route::get('server-error', function(){
+
+    abort(500);
+});

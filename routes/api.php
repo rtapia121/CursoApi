@@ -28,3 +28,9 @@ Route::post('/newsletter',[NewsletterController::class,'send'])->name('newslette
 
 Route::post('products/{product}/rate', [ProductRatingController::class, 'rate']);
 Route::post('products/{product}/unrate', [ProductRatingController::class, 'unrate']);
+
+
+Route::get('server-error', function(){
+
+    abort(500,'error 500');
+});
