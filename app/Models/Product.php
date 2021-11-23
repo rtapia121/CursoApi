@@ -11,6 +11,10 @@ class Product extends Model
 {
     use HasFactory, CanBeRate;
 
+    // protected $dispatchesEvents = [
+    //     'creating' => ProductCreating::class,
+    // ];
+
     protected $guarded = [];
 
     public function category()

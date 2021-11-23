@@ -6,6 +6,7 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductRatingController extends Controller
 {
@@ -15,10 +16,10 @@ class ProductRatingController extends Controller
             'score' => 'required'
         ]);
 
+        // dd($request->user(), Auth::user());
         /** @var User $user */
         $user = $request->user();
-        $user->rate($product, $request->get('score'));
-
+        $user->rate($product, $request->get('score'), $request->get('comments'));
         return new ProductResource($product);
     }
 

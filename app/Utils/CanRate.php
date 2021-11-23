@@ -3,6 +3,8 @@
 namespace App\Utils;
 
 use App\Events\ModelRated;
+use App\Exceptions\InvalidScore;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 
 trait CanRate {
@@ -33,9 +35,16 @@ trait CanRate {
 
     public function rate(Model $model, float $score)
     {
-
         if($this->hasRated($model))
             return false;
+
+
+        $from = config('rating.from');
+        $to = config('rating.to');
+
+        if($score < $from || $score > $to ){
+            throw new InvalidScore( $from,$to);
+        }
 
         $this->ratings($model)->attach($model->getKey(),[
             'score' => $score
