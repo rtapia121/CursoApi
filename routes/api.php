@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+    Route::post('rating/{rating}/approve', [ProductRatingController::class, 'approve'])->name('approve');
+    Route::get('list', [ProductRatingController::class, 'list'])->name('list');
 });
 
 Route::resource('products', ProductController::class)->middleware('auth:sanctum');
@@ -34,3 +36,5 @@ Route::get('server-error', function(){
 
     abort(500,'error 500');
 });
+
+

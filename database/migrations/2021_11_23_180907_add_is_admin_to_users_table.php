@@ -16,14 +16,14 @@ class AddIsAdminToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
              $table->boolean('is_admin')->default(false);
-
-             $user = User::find(1);
-
-             if($user){
-                 $user->is_admin = 1;
-                 $user->save();
-             }
         });
+
+        $user = User::find(1);
+
+        if($user){
+            $user->is_admin = 1;
+            $user->save();
+        }
     }
 
     /**

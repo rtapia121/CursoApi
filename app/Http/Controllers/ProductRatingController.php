@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\RatingResource;
 use App\Models\Product;
+use App\Models\Rating;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ProductRatingController extends Controller
 {
@@ -32,4 +35,23 @@ class ProductRatingController extends Controller
         return new ProductResource($product);
     }
 
+    public function approve( Rating $rating){
+        Gate::authorize('admin',$rating);
+        $rating->approve();
+        $rating->save();
+
+        return response()->json(200);
+    }
+
+    public function list(Request $request){
+        Gate::authorize('admin');
+        $builder = Rating::query()
+        ->when($request->has('approved'), function($query){
+            return $query->whereNotNull('approved_at');
+        })->when($request->has('not_approved'), function($query){
+            return $query->whereNull('approved_at');
+        });
+
+        return RatingResource::collection($builder->get());
+    }
 }
